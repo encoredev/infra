@@ -142,7 +142,7 @@ func (r *Relay) ProcessMessages(ctx context.Context, limit int) (numPublishSucce
 // as well as any Store-related error (which is cause for immediate abort).
 func (r *Relay) processBatch(ctx context.Context, batch MessageBatch) (numPublishSuccesses, numPublishErrs int, storeErr error) {
 	defer func() {
-		if err2 := batch.Close(); storeErr == nil {
+		if err2 := batch.Close(); err2 != nil && storeErr == nil {
 			storeErr = fmt.Errorf("close message batch: %w", err2)
 		}
 	}()
